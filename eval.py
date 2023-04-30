@@ -21,8 +21,12 @@ class EvalModule(object):
         return model
 
     def evaluation(self, args, down_ratio):
-        save_path = 'weights_'+args.dataset
-        self.model = self.load_model(self.model, os.path.join(save_path, args.resume))
+        if len(args.resume):
+            loaded_model_path = args.resume
+        else: 
+            save_path = 'weights_'+args.dataset
+            loaded_model_path = os.path.join(save_path, 'model_50.pth')
+        self.model = self.load_model(self.model, loaded_model_path)
         self.model = self.model.to(self.device)
         self.model.eval()
 
